@@ -12,14 +12,17 @@ button {
 .container {
   /* width: 425px; */
   width: 600px;
+  min-height: auto;
   max-height: 500px;
   background: #486982;
   border-radius: 8px;
   padding: 0.75rem;
+  overflow-y: auto;
 }
 
 .wrapper {
   width: 100%;
+  min-height: calc(100% - 1.5rem);
   background: white;
   border-radius: 8px;
   padding: 0.5rem;
@@ -30,7 +33,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .toggle-btn-div button {
@@ -74,10 +77,18 @@ main .group-section {
 main .group-section .group {
   border-radius: 20px;
   background: #cfdbeb;
-  padding: 0.5rem 0;
+  padding: 0.5rem 1rem;
   cursor: pointer;
   user-select: none;
   margin-bottom: 10px;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+main .group-section .group:hover {
+  opacity: 0.8;
 }
 
 main .tab-section {
