@@ -38,8 +38,9 @@ export async function getUngroupedTabsFromCurrentWindow() {
     `
 
     const closeBtn = tabElement.querySelector('button')
-    closeBtn.addEventListener('click', () => {
-      chrome.tabs.remove(tab.id)
+    closeBtn.addEventListener('click', async () => {
+      await chrome.tabs.remove(tab.id)
+      getUngroupedTabsFromCurrentWindow()
     })
 
     tabListElement.appendChild(tabElement)

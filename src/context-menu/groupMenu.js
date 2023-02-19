@@ -45,13 +45,7 @@ export function createGroupContextMenu(groupId) {
     type: 'separator',
     parentId: 'group-context-menu',
   })
-  
-  chrome.contextMenus.create({
-    id: 'remove-from-saved',
-    title: 'Remove from saved',
-    parentId: 'group-context-menu',
-  })
-  
+
   chrome.contextMenus.create({
     id: 'ungroup',
     title: 'Ungroup',
@@ -59,6 +53,12 @@ export function createGroupContextMenu(groupId) {
     onclick: () => ungroupAllTabsFromGroup(groupId)
   })
   
+  chrome.contextMenus.create({
+    id: 'remove-from-saved',
+    title: 'Remove from saved',
+    parentId: 'group-context-menu',
+  })
+    
   chrome.contextMenus.create({
     id: 'close',
     title: 'Close',
