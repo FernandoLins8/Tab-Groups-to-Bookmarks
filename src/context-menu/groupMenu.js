@@ -1,4 +1,4 @@
-import { toggleGroupCollapse } from './groupFunctions.js'
+import { copyGroupURLs, toggleGroupCollapse } from './groupFunctions.js'
 
 export function createGroupContextMenu(groupId) {
   chrome.contextMenus.create({
@@ -27,8 +27,9 @@ export function createGroupContextMenu(groupId) {
   
   chrome.contextMenus.create({
     id: 'copy',
-    title: 'Copy',
+    title: 'Copy URLs',
     parentId: 'group-context-menu',
+    onclick: () => copyGroupURLs(groupId)
   })
   
   chrome.contextMenus.create({
