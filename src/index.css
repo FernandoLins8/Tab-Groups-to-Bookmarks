@@ -1,0 +1,115 @@
+* {
+  box-sizing: border-box;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+button {
+  border: none;
+  padding: 0.25rem 0.75rem;
+  cursor: pointer;
+}
+
+.container {
+  /* width: 425px; */
+  width: 600px;
+  max-height: 500px;
+  background: #486982;
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+.wrapper {
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+.toggle-btn-div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.toggle-btn-div button {
+  width: 80px;
+  border: 1px lightsteelblue solid;
+  background: white;
+}
+
+.toggle-btn-div button.active {
+  border: 1px solid lightsteelblue !important;
+  background: lightsteelblue;
+  color: black;
+  font-weight: 600;
+}
+
+.toggle-btn-div button:first-child {
+  border-right: none;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.toggle-btn-div button:nth-child(2) {
+  border-left: none;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+main {
+  display: flex;
+  text-align: center;
+}
+
+main h2 {
+  font-size: large;
+}
+
+main .group-section {
+  width: 40%;
+}
+
+main .group-section .group {
+  border-radius: 20px;
+  background: #cfdbeb;
+  padding: 0.5rem 0;
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 10px;
+}
+
+main .tab-section {
+  width: 60%;
+}
+
+main .tab-section .tab-list {
+  padding: 0 1.5rem;
+}
+
+main .tab-section .tab {
+  height: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border: 1px solid #697585;
+  border-radius: 3px;
+  padding-left: 0.5rem;
+  margin-bottom: 8px;
+  text-align: left;
+  color: black;
+  cursor: pointer;
+}
+
+main .tab-section .tab-url {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  user-select: none;
+}
+
+main .tab-section .close-tab-btn {
+  color: red;
+}
