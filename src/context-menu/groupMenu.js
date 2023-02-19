@@ -1,4 +1,4 @@
-import { closeGroup, copyGroupURLs, toggleGroupCollapse, ungroupAllTabsFromGroup } from './groupFunctions.js'
+import { closeGroup, copyGroupURLs, downloadGroupTabsUrls, toggleGroupCollapse, ungroupAllTabsFromGroup } from './groupFunctions.js'
 
 export function createGroupContextMenu(groupId) {
   chrome.contextMenus.create({
@@ -34,8 +34,9 @@ export function createGroupContextMenu(groupId) {
   
   chrome.contextMenus.create({
     id: 'export-as-file',
-    title: 'Export as file',
+    title: 'Export URLs as file',
     parentId: 'group-context-menu',
+    onclick: () => downloadGroupTabsUrls(groupId)
   })
   
   chrome.contextMenus.create({

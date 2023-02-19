@@ -24,6 +24,25 @@ export async function copyGroupURLs(groupId) {
   }
 }
 
+export async function downloadGroupTabsUrls(groupId) {
+  const tabs = await chrome.tabs.query({
+    groupId
+  })
+
+  const textToDownload = tabs.map(tab => tab.url)
+    .filter(url => !url.includes('chrome://'))
+    .join('\n')
+  
+  const textBlob = new Blob([textToDownload], {type: 'text/plain'})
+  const url = URL.createObjectURL(textBlob)
+  
+  const group = await chrome.tabGroups.get(groupId)
+  await chrome.downloads.download({
+    url,
+    filename: `${group.title}.text`
+  })
+}
+
 export async function ungroupAllTabsFromGroup(groupId) {
   const groupTabs = await chrome.tabs.query({
     groupId
