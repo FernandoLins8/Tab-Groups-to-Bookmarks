@@ -25,12 +25,25 @@ export async function copyGroupURLs(groupId) {
 }
 
 export async function ungroupAllTabsFromGroup(groupId) {
-  const tabs = await chrome.tabs.query({
+  const groupTabs = await chrome.tabs.query({
     groupId
   })
-  const tabIds = tabs.map(tab => tab.id)
+  const tabIds = groupTabs.map(tab => tab.id)
   await chrome.tabs.ungroup(tabIds)
 
+  // Refresh the list of groups and tabs
+  getAllGroupsFromCurrentWindow()
+  getUngroupedTabsFromCurrentWindow()
+}
+
+export async function closeGroup(groupId) {
+  const groupTabs = await chrome.tabs.query({
+    groupId
+  })
+  const tabIds = groupTabs.map(tab => tab.id)
+  await chrome.tabs.remove(tabIds)
+
+  // Refresh the list of groups and tabs
   getAllGroupsFromCurrentWindow()
   getUngroupedTabsFromCurrentWindow()
 }
