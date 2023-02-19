@@ -1,4 +1,4 @@
-import { closeGroup, copyGroupURLs, downloadGroupTabsUrls, toggleGroupCollapse, ungroupAllTabsFromGroup } from './groupFunctions.js'
+import { closeGroup, copyGroupURLs, downloadGroupTabsUrls, saveGroupAsBookmarkFolder, toggleGroupCollapse, ungroupAllTabsFromGroup } from './groupFunctions.js'
 
 export function createGroupContextMenu(groupId) {
   chrome.contextMenus.create({
@@ -23,6 +23,7 @@ export function createGroupContextMenu(groupId) {
     id: 'save-as-bookmark-folder',
     title: 'Save as bookmark folder',
     parentId: 'group-context-menu',
+    onclick: () => saveGroupAsBookmarkFolder(groupId)
   })
   
   chrome.contextMenus.create({

@@ -7,6 +7,30 @@ export async function toggleGroupCollapse(groupId) {
   })
 }
 
+export async function saveGroupAsBookmarkFolder(groupId) {
+  const group = await chrome.tabGroups.get(groupId)
+  const groupTabs = await chrome.tabs.query({
+    groupId
+  })
+  
+  try {
+    await chrome.bookmarks.create({
+      parentId: '1', // Bookmark Bar Id
+      title: group.title
+    }, (folder) => {
+      groupTabs.forEach(async tab => {
+        await chrome.bookmarks.create({
+          parentId: folder.id,
+          title: tab.title,
+          url: tab.url,
+        })
+      })
+    })
+  } catch(err) {
+    alert('Error creating bookmark')
+  }
+}
+
 export async function copyGroupURLs(groupId) {
   const tabs = await chrome.tabs.query({
     groupId
