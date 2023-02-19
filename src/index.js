@@ -15,7 +15,7 @@ const groupColorMapper = {
   orange: '#fcad70',
 }
 
-async function getUngroupedTabsFromCurrentWindow() {
+export async function getUngroupedTabsFromCurrentWindow() {
   const tabs = await chrome.tabs.query({
     currentWindow: true,
     groupId: -1
@@ -46,7 +46,7 @@ async function getUngroupedTabsFromCurrentWindow() {
   })
 }
 
-async function getAllGroupsFromCurrentWindow() {
+export async function getAllGroupsFromCurrentWindow() {
   const groups = await chrome.tabGroups.query({
     windowId: -2 // represents the current window
   })

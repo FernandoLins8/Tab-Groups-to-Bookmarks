@@ -1,4 +1,4 @@
-import { copyGroupURLs, toggleGroupCollapse } from './groupFunctions.js'
+import { copyGroupURLs, toggleGroupCollapse, ungroupAllTabsFromGroup } from './groupFunctions.js'
 
 export function createGroupContextMenu(groupId) {
   chrome.contextMenus.create({
@@ -54,6 +54,7 @@ export function createGroupContextMenu(groupId) {
     id: 'ungroup',
     title: 'Ungroup',
     parentId: 'group-context-menu',
+    onclick: () => ungroupAllTabsFromGroup(groupId)
   })
   
   chrome.contextMenus.create({

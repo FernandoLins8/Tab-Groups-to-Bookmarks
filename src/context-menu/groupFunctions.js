@@ -1,3 +1,5 @@
+import { getAllGroupsFromCurrentWindow, getUngroupedTabsFromCurrentWindow } from '../index.js'
+
 export async function toggleGroupCollapse(groupId) {
   const group = await chrome.tabGroups.get(groupId)
   await chrome.tabGroups.update(groupId, {
@@ -20,4 +22,15 @@ export async function copyGroupURLs(groupId) {
   } catch(err) {
     alert('Error copying urls.')
   }
+}
+
+export async function ungroupAllTabsFromGroup(groupId) {
+  const tabs = await chrome.tabs.query({
+    groupId
+  })
+  const tabIds = tabs.map(tab => tab.id)
+  await chrome.tabs.ungroup(tabIds)
+
+  getAllGroupsFromCurrentWindow()
+  getUngroupedTabsFromCurrentWindow()
 }
