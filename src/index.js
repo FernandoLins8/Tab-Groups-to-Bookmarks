@@ -1,3 +1,5 @@
+import { createGroupContextMenu, removeGroupContextMenu } from './context-menu/groupMenu.js'
+
 const groupListElement = document.querySelector('#group-list')
 const tabListElement = document.querySelector('#tab-list')
 
@@ -55,10 +57,12 @@ async function getAllGroupsFromCurrentWindow() {
     const groupElement = document.createElement('div')
     groupElement.className = 'group'
     groupElement.style.backgroundColor = groupColorMapper[group.color]
-    console.log(group.color)
     groupElement.innerHTML = `
       <span class="group-name">${group.title}</span>
     `
+
+    groupElement.addEventListener('contextmenu', () => createGroupContextMenu(group.id))
+    groupElement.addEventListener('mouseleave', removeGroupContextMenu)
 
     groupListElement.appendChild(groupElement)
   })
