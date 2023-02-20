@@ -1,4 +1,4 @@
-import { getAllGroupsFromCurrentWindow, getUngroupedTabsFromCurrentWindow } from '../index.js'
+import { getAllGroupsFromCurrentWindow, renderTabs } from '../index.js'
 
 export async function toggleGroupCollapse(groupId) {
   const group = await chrome.tabGroups.get(groupId)
@@ -104,7 +104,7 @@ export async function ungroupAllTabsFromGroup(groupId) {
 
   // Refresh the list of groups and tabs
   getAllGroupsFromCurrentWindow()
-  getUngroupedTabsFromCurrentWindow()
+  renderTabs()
 }
 
 export async function closeGroup(groupId) {
@@ -116,5 +116,5 @@ export async function closeGroup(groupId) {
 
   // Refresh the list of groups and tabs
   getAllGroupsFromCurrentWindow()
-  getUngroupedTabsFromCurrentWindow()
+  renderTabs()
 }

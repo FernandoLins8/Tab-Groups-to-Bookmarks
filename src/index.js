@@ -3,6 +3,11 @@ import { createGroupContextMenu, removeGroupContextMenu } from './context-menu/g
 const groupListElement = document.querySelector('#group-list')
 const tabListElement = document.querySelector('#tab-list')
 
+const windowTabsGroupElement = document.querySelector('#window-tabs-group')
+windowTabsGroupElement.addEventListener('click', () => renderTabs())
+
+const tabListCurrentGroupElement = document.querySelector('#tab-list-current-group')
+
 const groupColorMapper = {
   grey: '#dadce0',
   blue: '#8ab4f8',
@@ -15,13 +20,24 @@ const groupColorMapper = {
   orange: '#fcad70',
 }
 
-export async function getUngroupedTabsFromCurrentWindow() {
+export async function renderTabs(groupId=-1) {
   const tabs = await chrome.tabs.query({
     currentWindow: true,
-    groupId: -1
+    groupId
   })
 
   tabListElement.innerHTML = ''
+
+  let groupLabelInfo = { title: 'Current Window Tabs', background: '#cfdbeb' }
+  if(groupId != -1) {
+    const group = await chrome.tabGroups.get(groupId)
+    groupLabelInfo = {
+      title: `${group.title} Tabs`,
+      background: groupColorMapper[group.color]
+    }
+  }
+  tabListCurrentGroupElement.innerHTML = groupLabelInfo.title
+  tabListCurrentGroupElement.style.background = groupLabelInfo.background
 
   tabs.forEach(tab => {
     const tabElement = document.createElement('div')
@@ -40,7 +56,7 @@ export async function getUngroupedTabsFromCurrentWindow() {
     const closeBtn = tabElement.querySelector('button')
     closeBtn.addEventListener('click', async () => {
       await chrome.tabs.remove(tab.id)
-      getUngroupedTabsFromCurrentWindow()
+      renderTabs()
     })
 
     tabListElement.appendChild(tabElement)
@@ -62,6 +78,7 @@ export async function getAllGroupsFromCurrentWindow() {
       <span class="group-name">${group.title}</span>
     `
 
+    groupElement.addEventListener('click', () => renderTabs(group.id))
     groupElement.addEventListener('contextmenu', () => createGroupContextMenu(group.id))
     groupElement.addEventListener('mouseleave', removeGroupContextMenu)
 
@@ -69,5 +86,5 @@ export async function getAllGroupsFromCurrentWindow() {
   })
 }
 
-getUngroupedTabsFromCurrentWindow()
+renderTabs()
 getAllGroupsFromCurrentWindow()

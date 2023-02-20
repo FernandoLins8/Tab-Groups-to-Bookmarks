@@ -93,10 +93,16 @@ main .group-section .group:hover {
 
 main .tab-section {
   width: 60%;
+  padding: 0 1.5rem;
 }
 
-main .tab-section .tab-list {
-  padding: 0 1.5rem;
+main .tab-section .tab-list-current-group {
+  margin: 1rem auto;
+  padding: 0.5rem 0.25rem;
+  user-select: none;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 main .tab-section .tab {
