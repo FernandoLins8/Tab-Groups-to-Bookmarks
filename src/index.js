@@ -48,7 +48,7 @@ export async function renderTabs(groupId=-1) {
     let unlinkFromGroupBtn = ''
     if(groupId != -1) {
       unlinkFromGroupBtn = `
-        <button id="unlink-btn-${tab.id}">
+        <button id="unlink-btn-${tab.id}" title="Ungroup Tab">
           <i class="fas fa-unlink"></i>
         </button>
       `
@@ -64,29 +64,50 @@ export async function renderTabs(groupId=-1) {
       </span>
       <div class="tab-btns">
         ${unlinkFromGroupBtn}
-        <button id="close-btn-${tab.id}">X</button>
+        <button 
+          id="close-btn-${tab.id}"
+          title="Close tab"
+        >
+          X
+        </button>
       </div>
     `
 
     if(groupId != -1) {
       const unlinkBtn = tabElement.querySelector(`#unlink-btn-${tab.id}`)
       unlinkBtn.addEventListener('click', async () => {
+        const remainingTabs = await chrome.tabs.query({
+          groupId
+        })
         await chrome.tabs.ungroup(tab.id)
-        renderTabs(groupId)
+        if(remainingTabs.length === 1) {
+          renderTabs()
+          renderGroups()
+        } else {
+          renderTabs(groupId)
+        }
       })
     }
 
     const closeBtn = tabElement.querySelector(`#close-btn-${tab.id}`)
     closeBtn.addEventListener('click', async () => {
+      const remainingTabs = await chrome.tabs.query({
+        groupId
+      })
       await chrome.tabs.remove(tab.id)
-      renderTabs()
+      if(remainingTabs.length === 1) {
+        renderTabs()
+        renderGroups()
+      } else {
+        renderTabs(groupId)
+      }
     })
 
     tabListElement.appendChild(tabElement)
   })
 }
 
-export async function getAllGroupsFromCurrentWindow() {
+export async function renderGroups() {
   const groups = await chrome.tabGroups.query({
     windowId: -2 // represents the current window
   })
@@ -110,4 +131,4 @@ export async function getAllGroupsFromCurrentWindow() {
 }
 
 renderTabs()
-getAllGroupsFromCurrentWindow()
+renderGroups()
