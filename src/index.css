@@ -74,6 +74,10 @@ main .group-section {
   width: 40%;
 }
 
+main .group-section .window-tabs-group {
+  margin: 1rem auto;
+}
+
 main .group-section .group {
   border-radius: 20px;
   background: #cfdbeb;
@@ -127,6 +131,13 @@ main .tab-section .tab-url {
   user-select: none;
 }
 
-main .tab-section .close-tab-btn {
-  color: red;
+main .tab-section .tab-btns {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+main .tab-section .tab-btns button {
+  padding: 0.25rem 0.5rem;
+  border-left: 1px solid #486982;
 }

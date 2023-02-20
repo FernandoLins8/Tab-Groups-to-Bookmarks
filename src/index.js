@@ -1,4 +1,4 @@
-import { createGroupContextMenu, removeGroupContextMenu } from './context-menu/groupMenu.js'
+import { createGroupContextMenu, removeGroupContextMenu } from './context-menus/groupMenu.js'
 
 const groupListElement = document.querySelector('#group-list')
 const tabListElement = document.querySelector('#tab-list')
@@ -28,6 +28,7 @@ export async function renderTabs(groupId=-1) {
 
   tabListElement.innerHTML = ''
 
+  // Update heading indicating from which group the listed tabs are
   let groupLabelInfo = { title: 'Current Window Tabs', background: '#cfdbeb' }
   if(groupId != -1) {
     const group = await chrome.tabGroups.get(groupId)
@@ -39,9 +40,20 @@ export async function renderTabs(groupId=-1) {
   tabListCurrentGroupElement.innerHTML = groupLabelInfo.title
   tabListCurrentGroupElement.style.background = groupLabelInfo.background
 
+  // Create Tabs
   tabs.forEach(tab => {
     const tabElement = document.createElement('div')
     tabElement.className = 'tab'
+
+    let unlinkFromGroupBtn = ''
+    if(groupId != -1) {
+      unlinkFromGroupBtn = `
+        <button id="unlink-btn-${tab.id}">
+          <i class="fas fa-unlink"></i>
+        </button>
+      `
+    }
+    
     tabElement.innerHTML = `
       <span
         id="tab-${tab.id}"
@@ -50,10 +62,21 @@ export async function renderTabs(groupId=-1) {
       >
         ${tab.title}
       </span>
-      <button class="close-tab-btn">X</button>
+      <div class="tab-btns">
+        ${unlinkFromGroupBtn}
+        <button id="close-btn-${tab.id}">X</button>
+      </div>
     `
 
-    const closeBtn = tabElement.querySelector('button')
+    if(groupId != -1) {
+      const unlinkBtn = tabElement.querySelector(`#unlink-btn-${tab.id}`)
+      unlinkBtn.addEventListener('click', async () => {
+        await chrome.tabs.ungroup(tab.id)
+        renderTabs(groupId)
+      })
+    }
+
+    const closeBtn = tabElement.querySelector(`#close-btn-${tab.id}`)
     closeBtn.addEventListener('click', async () => {
       await chrome.tabs.remove(tab.id)
       renderTabs()
