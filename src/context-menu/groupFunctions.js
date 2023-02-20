@@ -7,6 +7,34 @@ export async function toggleGroupCollapse(groupId) {
   })
 }
 
+export async function saveGroupInStorage(groupId) {
+  const group = await chrome.tabGroups.get(groupId)
+  const groupTabs = await chrome.tabs.query({
+    groupId
+  })
+  const serializedGroupTabs = groupTabs.map(tab => { return { title: tab.title, url: tab.url } })
+
+  try {
+    await chrome.storage.local.set({
+      [groupId]: JSON.stringify([serializedGroupTabs].sort((a, b) => a.title - b.title))
+    })
+    alert('Group saved in storage')
+  } catch(err) {
+    alert('Error saving group')
+  }
+}
+
+export async function removeOpenGroupFromStorage(groupId) {
+  const group = await chrome.tabGroups.get(groupId)
+  
+  try {
+    await chrome.storage.local.remove(group.title)
+    alert('Group removed from storage')
+  } catch(err) {
+    alert('Error deleting group from storage')
+  }
+}
+
 export async function saveGroupAsBookmarkFolder(groupId) {
   const group = await chrome.tabGroups.get(groupId)
   const groupTabs = await chrome.tabs.query({
