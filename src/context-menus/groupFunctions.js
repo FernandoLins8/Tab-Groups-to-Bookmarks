@@ -35,25 +35,57 @@ export async function removeOpenGroupFromStorage(groupId) {
   }
 }
 
+// TODO:
+// Refactor me plz :(
 export async function saveGroupAsBookmarkFolder(groupId) {
   const group = await chrome.tabGroups.get(groupId)
   const groupTabs = await chrome.tabs.query({
     groupId
   })
-  
+
+  const groupsSavedFolderName = 'Groups (Tab Groups Saved Extension)'
   try {
-    await chrome.bookmarks.create({
-      parentId: '1', // Bookmark Bar Id
-      title: group.title
-    }, (folder) => {
-      groupTabs.forEach(async tab => {
+    await chrome.bookmarks.search({
+      title: groupsSavedFolderName
+    }, async (resultList) => {
+      if(resultList.length > 0) {
+        // Default folder for groups already exist
+        console.log(resultList)
         await chrome.bookmarks.create({
-          parentId: folder.id,
-          title: tab.title,
-          url: tab.url,
+          parentId: resultList[0].id,
+          title: group.title
+        }, (folder) => {
+          groupTabs.forEach(async tab => {
+            await chrome.bookmarks.create({
+              parentId: folder.id,
+              title: tab.title,
+              url: tab.url,
+            })
+          })
         })
-      })
+      } else {
+        // Default folder does not exist yet, lets create it
+        await chrome.bookmarks.create({
+          parentId: '1',
+          index: 0,
+          title: groupsSavedFolderName
+        }, async (defaultGroupFolder) => {
+          await chrome.bookmarks.create({
+            parentId: defaultGroupFolder.id,
+            title: group.title
+          }, (folder) => {
+            groupTabs.forEach(async tab => {
+              await chrome.bookmarks.create({
+                parentId: folder.id,
+                title: tab.title,
+                url: tab.url,
+              })
+            })
+          })
+        })
+      }
     })
+    alert('Group Saved as Bookmark')
   } catch(err) {
     alert('Error creating bookmark')
   }
