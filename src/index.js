@@ -1,10 +1,13 @@
-import { createGroupContextMenu, removeGroupContextMenu } from './context-menus/groupMenu.js'
+import { createCurrentWindowContextMenu } from './context-menus/currentWindowMenu.js'
+import { createGroupContextMenu, removeContextMenus } from './context-menus/groupMenu.js'
 
 const groupListElement = document.querySelector('#group-list')
 const tabListElement = document.querySelector('#tab-list')
 
 const windowTabsGroupElement = document.querySelector('#window-tabs-group')
 windowTabsGroupElement.addEventListener('click', () => renderTabs())
+windowTabsGroupElement.addEventListener('contextmenu', createCurrentWindowContextMenu)
+windowTabsGroupElement.addEventListener('mouseleave', removeContextMenus)
 
 const tabListCurrentGroupElement = document.querySelector('#tab-list-current-group')
 
@@ -124,7 +127,7 @@ export async function renderGroups() {
 
     groupElement.addEventListener('click', () => renderTabs(group.id))
     groupElement.addEventListener('contextmenu', () => createGroupContextMenu(group.id))
-    groupElement.addEventListener('mouseleave', removeGroupContextMenu)
+    groupElement.addEventListener('mouseleave', removeContextMenus)
 
     groupListElement.appendChild(groupElement)
   })

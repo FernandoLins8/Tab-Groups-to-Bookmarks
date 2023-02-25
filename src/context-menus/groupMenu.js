@@ -78,6 +78,6 @@ export function createGroupContextMenu(groupId) {
   })
 }
 
-export function removeGroupContextMenu() {
+export function removeContextMenus() {
   chrome.contextMenus.removeAll()
 }
