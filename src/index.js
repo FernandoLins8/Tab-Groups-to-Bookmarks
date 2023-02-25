@@ -131,6 +131,7 @@ export async function renderGroups() {
 
     groupListElement.appendChild(groupElement)
   })
+  removeContextMenus()
 }
 
 renderTabs()
