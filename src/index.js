@@ -1,3 +1,4 @@
+import { createTabElements } from './components/tab/index.js'
 import { createCurrentWindowContextMenu } from './context-menus/currentWindowMenu.js'
 import { createGroupContextMenu, removeContextMenus } from './context-menus/groupMenu.js'
 
@@ -45,67 +46,7 @@ export async function renderTabs(groupId=-1) {
 
   // Create Tabs
   tabs.forEach(tab => {
-    const tabElement = document.createElement('div')
-    tabElement.className = 'tab'
-
-    let unlinkFromGroupBtn = ''
-    if(groupId != -1) {
-      unlinkFromGroupBtn = `
-        <button id="unlink-btn-${tab.id}" title="Ungroup Tab">
-          <i class="fas fa-unlink"></i>
-        </button>
-      `
-    }
-    
-    tabElement.innerHTML = `
-      <span
-        id="tab-${tab.id}"
-        class="tab-url"
-        title="${tab.title}"
-      >
-        ${tab.title}
-      </span>
-      <div class="tab-btns">
-        ${unlinkFromGroupBtn}
-        <button 
-          id="close-btn-${tab.id}"
-          title="Close tab"
-        >
-          X
-        </button>
-      </div>
-    `
-
-    if(groupId != -1) {
-      const unlinkBtn = tabElement.querySelector(`#unlink-btn-${tab.id}`)
-      unlinkBtn.addEventListener('click', async () => {
-        const remainingTabs = await chrome.tabs.query({
-          groupId
-        })
-        await chrome.tabs.ungroup(tab.id)
-        if(remainingTabs.length === 1) {
-          renderTabs()
-          renderGroups()
-        } else {
-          renderTabs(groupId)
-        }
-      })
-    }
-
-    const closeBtn = tabElement.querySelector(`#close-btn-${tab.id}`)
-    closeBtn.addEventListener('click', async () => {
-      const remainingTabs = await chrome.tabs.query({
-        groupId
-      })
-      await chrome.tabs.remove(tab.id)
-      if(remainingTabs.length === 1) {
-        renderTabs()
-        renderGroups()
-      } else {
-        renderTabs(groupId)
-      }
-    })
-
+    const tabElement = createTabElements(tab, groupId)
     tabListElement.appendChild(tabElement)
   })
 }
