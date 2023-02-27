@@ -85,15 +85,20 @@ main .group-section .group {
   cursor: pointer;
   user-select: none;
   margin-bottom: 10px;
+}
+
+main .group-section .group input {
+  /* This avoids the input inside the group messing with the drag over event  */
+  pointer-events: none;
+  text-align: center;
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
 
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-}
-
-main .group-section .group span {
-  /* This avoids the span inside the group messing with the drag over event  */
-  pointer-events: none;
 }
 
 main .group-section .group:hover {
@@ -126,7 +131,7 @@ main .tab-section .tab {
   margin-bottom: 8px;
   text-align: left;
   color: black;
-  cursor: pointer;
+  cursor: grabbing;
 }
 
 main .tab-section .tab-url {
