@@ -91,6 +91,11 @@ main .group-section .group {
   white-space: nowrap;
 }
 
+main .group-section .group span {
+  /* This avoids the span inside the group messing with the drag over event  */
+  pointer-events: none;
+}
+
 main .group-section .group:hover {
   opacity: 0.8;
 }
