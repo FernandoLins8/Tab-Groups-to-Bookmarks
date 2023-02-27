@@ -1,5 +1,5 @@
 import { addWindowTabsEventListeners, createGroupElement, groupColorMapper } from './components/group.js'
-import { createTabElements } from './components/tab/index.js'
+import { createTabElements } from './components/tab/tab.js'
 import { removeContextMenus } from './context-menus/groupMenu.js'
 
 

@@ -19,11 +19,15 @@ export function addWindowTabsEventListeners() {
   windowTabsGroupElement.addEventListener('click', () => renderTabs())
   windowTabsGroupElement.addEventListener('contextmenu', createCurrentWindowContextMenu)
   windowTabsGroupElement.addEventListener('mouseleave', removeContextMenus)
+
+  windowTabsGroupElement.addEventListener('dragover', dragOver)
+  windowTabsGroupElement.addEventListener('drop', dragDrop)
 }
 
 export function createGroupElement(groupId, title, color) {
   const groupElement = document.createElement('div')
   groupElement.className = 'group'
+  groupElement.setAttribute('data-group-id', groupId)
   groupElement.style.backgroundColor = groupColorMapper[color]
   groupElement.innerHTML = `
     <span class="group-name">${title}</span>
@@ -33,5 +37,31 @@ export function createGroupElement(groupId, title, color) {
   groupElement.addEventListener('contextmenu', () => createGroupContextMenu(groupId))
   groupElement.addEventListener('mouseleave', removeContextMenus)
 
+  groupElement.addEventListener('dragover', dragOver)
+  groupElement.addEventListener('drop', dragDrop)
+
   return groupElement
+}
+
+async function dragDrop(e) {
+  const groupId = +this.getAttribute('data-group-id')
+  const draggedTabId = +e.dataTransfer.getData('text')
+
+  // Add tab to group
+  if(groupId) {
+    await chrome.tabs.group({
+      groupId,
+      tabIds: draggedTabId
+    })
+    renderTabs(groupId)
+  } else {
+    // Ungroup tab if dragged to window group element
+    await chrome.tabs.ungroup(draggedTabId)
+    renderTabs()
+  }
+}
+
+// default behavior is not letting an element being dragged into another
+function dragOver(e) {
+  e.preventDefault()
 }

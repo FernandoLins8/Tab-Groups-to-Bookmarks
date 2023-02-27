@@ -4,9 +4,10 @@ import { createUnlinkButton } from "./unlinkButton.js"
 export function createTabElements(tab, groupId) {
   const tabElement = document.createElement('div')
   tabElement.className = 'tab'
+  tabElement.setAttribute('draggable', true)
+  tabElement.setAttribute('data-tab-id', tab.id)
   tabElement.innerHTML = `
     <span
-      id="tab-${tab.id}"
       class="tab-url"
       title="${tab.title}"
     >
@@ -14,6 +15,8 @@ export function createTabElements(tab, groupId) {
     </span>
     <div class="tab-btns"></div>
   `
+
+  tabElement.addEventListener('dragstart', dragStart)
 
   // Add tab buttons
   const btnContainer = tabElement.querySelector('.tab-btns')
@@ -27,4 +30,10 @@ export function createTabElements(tab, groupId) {
   
 
   return tabElement
+}
+
+function dragStart(e) {
+  const draggedTabId = e.target.getAttribute('data-tab-id')
+  e.dataTransfer.clearData()
+  e.dataTransfer.setData("text", draggedTabId);
 }
