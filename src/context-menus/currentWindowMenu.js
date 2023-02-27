@@ -8,7 +8,7 @@ export function createCurrentWindowContextMenu() {
   })
 }
 
-export async function GroupAllUngroupedTabs() {
+async function GroupAllUngroupedTabs() {
   const ungroupedTabs = await chrome.tabs.query({
     currentWindow: true,
     groupId: -1

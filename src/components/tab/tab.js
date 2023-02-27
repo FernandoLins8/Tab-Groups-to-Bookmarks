@@ -1,3 +1,5 @@
+import { removeContextMenus } from "../../context-menus/groupMenu.js"
+import { createTabContextMenu } from "../../context-menus/tabContextMenu.js"
 import { createCloseButton } from "./closeButton.js"
 import { createUnlinkButton } from "./unlinkButton.js"
 
@@ -16,6 +18,8 @@ export function createTabElements(tab, groupId) {
     <div class="tab-btns"></div>
   `
 
+  tabElement.addEventListener('contextmenu', () => createTabContextMenu(tab.id))
+  tabElement.addEventListener('mouseleave', removeContextMenus)
   tabElement.addEventListener('dragstart', dragStart)
 
   // Add tab buttons
