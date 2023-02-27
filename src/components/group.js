@@ -47,18 +47,21 @@ async function dragDrop(e) {
   const groupId = +this.getAttribute('data-group-id')
   const draggedTabId = +e.dataTransfer.getData('text')
 
+  const tab = await chrome.tabs.get(draggedTabId)
+  const previousGroupId = tab.groupId
+  
   // Add tab to group
   if(groupId) {
     await chrome.tabs.group({
       groupId,
       tabIds: draggedTabId
     })
-    renderTabs(groupId)
   } else {
     // Ungroup tab if dragged to window group element
     await chrome.tabs.ungroup(draggedTabId)
-    renderTabs()
   }
+  
+  renderTabs(previousGroupId)
 }
 
 // default behavior is not letting an element being dragged into another
