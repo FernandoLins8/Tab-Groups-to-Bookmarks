@@ -1,7 +1,7 @@
-import { renderTabs } from "../index.js"
-import { createCurrentWindowContextMenu } from "../context-menus/currentWindowMenu.js"
-import { createGroupContextMenu, removeContextMenus } from "../context-menus/groupMenu.js"
-import { createGroupInput, focusGroupInputFromParent } from "./group/input.js"
+import { renderTabs } from "../../index.js"
+import { createCurrentWindowContextMenu } from "../../context-menus/currentWindowMenu.js"
+import { createGroupContextMenu, removeContextMenus } from "../../context-menus/groupMenu.js"
+import { createGroupInput, focusGroupInputFromParent } from "./input.js"
 
 export const groupColorMapper = {
   grey: '#dadce0',
@@ -43,7 +43,6 @@ export function createGroupElement(groupId, title, color) {
   // Drag events to add tabs to group
   groupElement.addEventListener('dragover', dragOver)
   groupElement.addEventListener('drop', dragDrop)
-
 
   return groupElement
 }

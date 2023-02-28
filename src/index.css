@@ -87,6 +87,16 @@ main .group-section .group {
   margin-bottom: 10px;
 }
 
+main .group-section .new-group-hidden {
+  display: none;
+}
+
+main .group-section .new-group-shown {
+  display: block;
+  background: transparent;
+  border: 1px dashed black;
+}
+
 main .group-section .group input {
   /* This avoids the input inside the group messing with the drag over event  */
   pointer-events: none;
