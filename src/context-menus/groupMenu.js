@@ -2,9 +2,7 @@ import {
   closeGroup,
   copyGroupURLs,
   downloadGroupTabsUrls,
-  removeOpenGroupFromStorage,
   saveGroupAsBookmarkFolder,
-  saveGroupInStorage,
   toggleGroupCollapse,
   ungroupAllTabsFromGroup 
 } from './groupFunctions.js'
@@ -21,14 +19,7 @@ export function createGroupContextMenu(groupId) {
     parentId: 'group-context-menu',
     onclick: () => toggleGroupCollapse(groupId)
   })
-  
-  chrome.contextMenus.create({
-    id: 'save',
-    title: 'Save',
-    parentId: 'group-context-menu',
-    onclick: () => saveGroupInStorage(groupId)
-  })
-  
+    
   chrome.contextMenus.create({
     id: 'save-as-bookmark-folder',
     title: 'Save as bookmark folder',
@@ -61,13 +52,6 @@ export function createGroupContextMenu(groupId) {
     title: 'Ungroup',
     parentId: 'group-context-menu',
     onclick: () => ungroupAllTabsFromGroup(groupId)
-  })
-  
-  chrome.contextMenus.create({
-    id: 'remove-from-saved',
-    title: 'Remove from saved',
-    parentId: 'group-context-menu',
-    onclick: () => removeOpenGroupFromStorage(groupId)
   })
     
   chrome.contextMenus.create({
