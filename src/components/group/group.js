@@ -51,13 +51,18 @@ export function createGroupElementFromBookmark(bookmarkId, title, index) {
   const groupElement = document.createElement('div')
   groupElement.className = 'group'
   groupElement.setAttribute('bookmark-id', bookmarkId)
-  groupElement.innerHTML = `<span>${title}</span>`
   
+  // Selects background color (array order)
   const colorValues = Object.values(groupColorMapper)
   const color = colorValues[index % colorValues.length]
   groupElement.style.backgroundColor = color
 
-  groupElement.addEventListener('click', () => renderTabsFromSavedGroup(bookmarkId, title, color))
+  // Creates group input (group title) adding the event listener to rename it
+  const groupTitleInput = createGroupInput(bookmarkId, title, 'bookmark', color)
+  groupElement.appendChild(groupTitleInput)
+  groupElement.addEventListener('dblclick', focusGroupInputFromParent)
+
+  groupElement.addEventListener('click', () => renderTabsFromSavedGroup(bookmarkId, color))
   
   return groupElement
 }

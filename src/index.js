@@ -52,13 +52,13 @@ export async function renderSavedGroups() {
   })
 }
 
-export async function renderTabsFromSavedGroup(groupBookmarkId, title='Group Tabs', groupColor='#cfdbeb') {
+export async function renderTabsFromSavedGroup(groupBookmarkId, groupColor='#cfdbeb') {
   const tabListElement = document.querySelector('#tab-list')
   tabListElement.innerHTML = ''
-  
+    
   // Update heading indicating from which group the listed tabs are
   const tabListCurrentGroupElement = document.querySelector('#tab-list-current-group')
-  tabListCurrentGroupElement.innerHTML = title
+  tabListCurrentGroupElement.innerHTML = 'Tabs'
   tabListCurrentGroupElement.style.background = groupColor
   
   // If not bookmark is specified stop after clearing the tabs
@@ -66,8 +66,11 @@ export async function renderTabsFromSavedGroup(groupBookmarkId, title='Group Tab
     return
   }
   
-  const groupBookmark = await chrome.bookmarks.getChildren(groupBookmarkId)
-  const groupSavedUrls = groupBookmark.filter(bookmark => bookmark.url !== undefined)
+  const groupBookmark = await chrome.bookmarks.get(groupBookmarkId)
+  tabListCurrentGroupElement.innerHTML = groupBookmark[0].title + ' Tabs'
+  
+  const groupBookmarkChildren = await chrome.bookmarks.getChildren(groupBookmarkId)
+  const groupSavedUrls = groupBookmarkChildren.filter(bookmark => bookmark.url !== undefined)
   // Create Tabs
   groupSavedUrls.forEach(url => {
     const tabElement = createSavedGroupTabElement(url.id, url.title, groupBookmarkId)

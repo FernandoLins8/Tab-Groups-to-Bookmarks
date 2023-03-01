@@ -1,20 +1,26 @@
-import { renderTabs } from "../../index.js"
+import { renderTabs, renderTabsFromSavedGroup } from "../../index.js"
 
-export function createGroupInput(groupId, groupTitle) {
+export function createGroupInput(groupId, groupTitle, groupType = 'tab', color) {
   const inputElement = document.createElement('input')
   inputElement.className = 'group-name'
   inputElement.setAttribute('type', 'text')
   inputElement.value = groupTitle
 
-  inputElement.addEventListener('dblclick', () => {
-  })
-
   // Rename group
   inputElement.addEventListener('input', async (e) => {
-    await chrome.tabGroups.update(groupId, {
-      title: e.target.value
-    })
-    renderTabs(groupId)
+    const newTitle = e.target.value
+
+    if(groupType == 'tab') {
+      await chrome.tabGroups.update(groupId, {
+        title: newTitle
+      })
+      renderTabs(groupId)
+    } else if(groupType == 'bookmark') {
+      await chrome.bookmarks.update(groupId, {
+        title: newTitle
+      })
+      renderTabsFromSavedGroup(groupId, color)
+    }
   })
 
   // Remove focus on enter
