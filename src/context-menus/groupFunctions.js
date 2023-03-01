@@ -15,7 +15,7 @@ export async function saveGroupAsBookmarkFolder(groupId) {
     groupId
   })
 
-  const groupsSavedFolderName = 'Groups (Tab Groups Saved Extension)'
+  const groupsSavedFolderName = 'Groups (Tab Groups Saver)'
   try {
     await chrome.bookmarks.search({
       title: groupsSavedFolderName

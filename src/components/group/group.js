@@ -1,4 +1,4 @@
-import { renderTabs } from "../../index.js"
+import { renderTabs, renderTabsFromSavedGroup } from "../../index.js"
 import { createCurrentWindowContextMenu } from "../../context-menus/currentWindowMenu.js"
 import { createGroupContextMenu, removeContextMenus } from "../../context-menus/groupMenu.js"
 import { createGroupInput, focusGroupInputFromParent } from "./input.js"
@@ -44,6 +44,21 @@ export function createGroupElement(groupId, title, color) {
   groupElement.addEventListener('dragover', dragOver)
   groupElement.addEventListener('drop', dragDrop)
 
+  return groupElement
+}
+
+export function createGroupElementFromBookmark(bookmarkId, title, index) {
+  const groupElement = document.createElement('div')
+  groupElement.className = 'group'
+  groupElement.setAttribute('bookmark-id', bookmarkId)
+  groupElement.innerHTML = `<span>${title}</span>`
+  
+  const colorValues = Object.values(groupColorMapper)
+  const color = colorValues[index % colorValues.length]
+  groupElement.style.backgroundColor = color
+
+  groupElement.addEventListener('click', () => renderTabsFromSavedGroup(bookmarkId, title, color))
+  
   return groupElement
 }
 

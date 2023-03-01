@@ -20,6 +20,11 @@ button {
   overflow-y: auto;
 }
 
+.container::-webkit-scrollbar {
+  display: none;
+  /* scrollbar-width: none; for firefox */
+}
+
 .wrapper {
   width: 100%;
   min-height: calc(100% - 1.5rem);
@@ -42,13 +47,6 @@ button {
   background: white;
 }
 
-.toggle-btn-div button.active {
-  border: 1px solid lightsteelblue !important;
-  background: lightsteelblue;
-  color: black;
-  font-weight: 600;
-}
-
 .toggle-btn-div button:first-child {
   border-right: none;
   border-top-left-radius: 5px;
@@ -59,6 +57,11 @@ button {
   border-left: none;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+
+.toggle-btn-div button.active {
+  background: #dfe7f1;
+  border: 1px #9eb0c7 solid;
 }
 
 main {
@@ -75,7 +78,12 @@ main .group-section {
 }
 
 main .group-section .window-tabs-group {
+  display: none;
   margin: 1rem auto;
+}
+
+main .group-section .window-tabs-group.show {
+  display: block;
 }
 
 main .group-section .group {
