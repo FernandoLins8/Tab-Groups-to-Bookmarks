@@ -1,4 +1,4 @@
-import { renderTabs, renderTabsFromSavedGroup } from "../../index.js"
+import { renderSavedGroups, renderTabs, renderTabsFromSavedGroup } from "../../index.js"
 import { createCurrentWindowContextMenu } from "../../context-menus/currentWindowMenu.js"
 import { createGroupContextMenu, removeContextMenus } from "../../context-menus/groupMenu.js"
 import { createGroupInput, focusGroupInputFromParent } from "./input.js"
@@ -21,8 +21,8 @@ export function addWindowTabsEventListeners() {
   windowTabsGroupElement.addEventListener('contextmenu', createCurrentWindowContextMenu)
   windowTabsGroupElement.addEventListener('mouseleave', removeContextMenus)
 
-  windowTabsGroupElement.addEventListener('dragover', dragOver)
-  windowTabsGroupElement.addEventListener('drop', dragDrop)
+  windowTabsGroupElement.addEventListener('dragover', allowDragOver)
+  windowTabsGroupElement.addEventListener('drop', dropTabIntoGroup)
 }
 
 export function createGroupElement(groupId, title, color) {
@@ -41,8 +41,8 @@ export function createGroupElement(groupId, title, color) {
   groupElement.addEventListener('mouseleave', removeContextMenus)
 
   // Drag events to add tabs to group
-  groupElement.addEventListener('dragover', dragOver)
-  groupElement.addEventListener('drop', dragDrop)
+  groupElement.addEventListener('dragover', allowDragOver)
+  groupElement.addEventListener('drop', dropTabIntoGroup)
 
   return groupElement
 }
@@ -50,7 +50,7 @@ export function createGroupElement(groupId, title, color) {
 export function createGroupElementFromBookmark(bookmarkId, title, index) {
   const groupElement = document.createElement('div')
   groupElement.className = 'group'
-  groupElement.setAttribute('bookmark-id', bookmarkId)
+  groupElement.setAttribute('data-bookmark-group-id', bookmarkId)
   
   // Selects background color (array order)
   const colorValues = Object.values(groupColorMapper)
@@ -63,11 +63,15 @@ export function createGroupElementFromBookmark(bookmarkId, title, index) {
   groupElement.addEventListener('dblclick', focusGroupInputFromParent)
 
   groupElement.addEventListener('click', () => renderTabsFromSavedGroup(bookmarkId, color))
+
+  // Drag events to add tabs to group
+  groupElement.addEventListener('dragover', allowDragOver)
+  groupElement.addEventListener('drop', (e) => dropTabIntoSavedGroup(e))
   
   return groupElement
 }
 
-async function dragDrop(e) {
+async function dropTabIntoGroup(e) {
   const groupId = +this.getAttribute('data-group-id')
   const draggedTabId = +e.dataTransfer.getData('text')
 
@@ -88,7 +92,30 @@ async function dragDrop(e) {
   renderTabs(previousGroupId)
 }
 
+async function dropTabIntoSavedGroup(e) {
+  const bookmarkNewGroupId = e.target.getAttribute('data-bookmark-group-id')
+  const draggedTabBookmarkId = e.dataTransfer.getData('text')
+
+  const bookmarkTabArray = await chrome.bookmarks.get(draggedTabBookmarkId)
+  const bookmarkTab = bookmarkTabArray[0]
+  const oldBookmarkGroupId = bookmarkTab.parentId
+  
+  // Add to new bookmark group
+  await chrome.bookmarks.move(bookmarkTab.id, {
+    parentId: bookmarkNewGroupId
+  })
+
+  renderTabsFromSavedGroup(oldBookmarkGroupId, null)
+  
+  // Delete bookmark folder if empty
+  const remainingItems = await chrome.bookmarks.getChildren(oldBookmarkGroupId)
+  if (remainingItems.length === 0) {
+    await chrome.bookmarks.remove(oldBookmarkGroupId)
+    renderSavedGroups()
+  }
+}
+
 // default behavior is not letting an element being dragged into another
-function dragOver(e) {
+function allowDragOver(e) {
   e.preventDefault()
 }

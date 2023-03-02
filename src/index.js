@@ -59,7 +59,11 @@ export async function renderTabsFromSavedGroup(groupBookmarkId, groupColor='#cfd
   // Update heading indicating from which group the listed tabs are
   const tabListCurrentGroupElement = document.querySelector('#tab-list-current-group')
   tabListCurrentGroupElement.innerHTML = 'Tabs'
-  tabListCurrentGroupElement.style.background = groupColor
+
+  // Allows passing null to keep the current color (not reseting)
+  if(groupColor) {
+    tabListCurrentGroupElement.style.background = groupColor
+  }
   
   // If not bookmark is specified stop after clearing the tabs
   if(!groupBookmarkId) {

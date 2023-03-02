@@ -23,7 +23,7 @@ export function createCloseButton(tabId, groupId, itemType = 'tab') {
 
     const { renderTabsFn, renderGroupsFn } = renderFunctions[itemType]
 
-    renderTabsFn(groupId)
+    renderTabsFn(groupId, null)
     renderGroupsFn()
     
     // Delete bookmark folder if all urls were deleted

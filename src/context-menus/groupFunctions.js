@@ -22,7 +22,6 @@ export async function saveGroupAsBookmarkFolder(groupId) {
     }, async (resultList) => {
       if(resultList.length > 0) {
         // Default folder for groups already exist
-        console.log(resultList)
         await chrome.bookmarks.create({
           parentId: resultList[0].id,
           title: group.title

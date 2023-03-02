@@ -41,7 +41,7 @@ export function createSavedGroupTabElement(urlId, urlTitle, groupBookmarkId) {
   const tabElement = document.createElement('div')
   tabElement.className = 'tab'
   tabElement.setAttribute('draggable', true)
-  tabElement.setAttribute('data-tab-id', urlId)
+  tabElement.setAttribute('data-bookmark-tab-id', urlId)
   tabElement.innerHTML = `
     <span
       class="tab-url"
@@ -54,8 +54,8 @@ export function createSavedGroupTabElement(urlId, urlTitle, groupBookmarkId) {
 
   // tabElement.addEventListener('contextmenu', () => createTabContextMenu(tab.id))
   // tabElement.addEventListener('mouseleave', removeContextMenus)
-  // tabElement.addEventListener('dragstart', dragStart)
-  // tabElement.addEventListener('dragend', hideCreateNewGroupElement)
+
+  tabElement.addEventListener('dragstart', (e) => dragStart(e, 'bookmark'))
 
   // Add tab buttons
   const btnContainer = tabElement.querySelector('.tab-btns')
@@ -65,10 +65,15 @@ export function createSavedGroupTabElement(urlId, urlTitle, groupBookmarkId) {
   return tabElement
 }
 
-function dragStart(e) {
-  showCreateNewGroupElement()
+function dragStart(e, itemType='tab') {
+  let dataAttribute = 'data-bookmark-tab-id'
+
+  if(itemType == 'tab') {
+    showCreateNewGroupElement()
+    dataAttribute = 'data-tab-id'
+  }
   
-  const draggedTabId = e.target.getAttribute('data-tab-id')
+  const draggedTabId = e.target.getAttribute(dataAttribute)
   e.dataTransfer.clearData()
   e.dataTransfer.setData("text", draggedTabId);
 }
