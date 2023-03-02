@@ -1,7 +1,7 @@
 import { addWindowTabsEventListeners, createGroupElement, createGroupElementFromBookmark, groupColorMapper } from './components/group/group.js'
 import { createNewGroupElement } from './components/group/newGroupElement.js'
 import { createSavedGroupTabElement, createTabElements } from './components/tab/tab.js'
-import { removeContextMenus } from './context-menus/groupMenu.js'
+import { removeContextMenus } from './context-menus/openGroup/openGroupMenu.js'
 
 const openGroupsBtn = document.querySelector('#open-btn')
 const savedGroupsBtn = document.querySelector('#saved-btn')

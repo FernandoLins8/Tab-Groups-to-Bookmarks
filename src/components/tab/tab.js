@@ -1,4 +1,4 @@
-import { removeContextMenus } from "../../context-menus/groupMenu.js"
+import { removeContextMenus } from "../../context-menus/openGroup/openGroupMenu.js"
 import { createTabContextMenu } from "../../context-menus/tabContextMenu.js"
 import { hideCreateNewGroupElement, showCreateNewGroupElement } from "../group/newGroupElement.js"
 import { createCloseButton } from "./closeButton.js"

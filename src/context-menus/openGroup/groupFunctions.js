@@ -1,4 +1,4 @@
-import { renderGroups, renderTabs } from '../index.js'
+import { renderGroups, renderTabs } from '../../index.js'
 
 export async function toggleGroupCollapse(groupId) {
   const group = await chrome.tabGroups.get(groupId)
