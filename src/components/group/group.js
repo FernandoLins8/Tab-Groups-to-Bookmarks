@@ -2,6 +2,7 @@ import { renderSavedGroups, renderTabs, renderTabsFromSavedGroup } from "../../i
 import { createCurrentWindowContextMenu } from "../../context-menus/currentWindowMenu.js"
 import { createGroupContextMenu, removeContextMenus } from "../../context-menus/openGroup/openGroupMenu.js"
 import { createGroupInput, focusGroupInputFromParent } from "./input.js"
+import { createSavedGroupContextMenu } from "../../context-menus/savedGroup/savedGroupMenu.js"
 
 export const groupColorMapper = {
   grey: '#dadce0',
@@ -63,6 +64,8 @@ export function createGroupElementFromBookmark(bookmarkId, title, index) {
   groupElement.addEventListener('dblclick', focusGroupInputFromParent)
 
   groupElement.addEventListener('click', () => renderTabsFromSavedGroup(bookmarkId, color))
+  groupElement.addEventListener('contextmenu', () => createSavedGroupContextMenu(bookmarkId))
+  groupElement.addEventListener('mouseleave', removeContextMenus)
 
   // Drag events to add tabs to group
   groupElement.addEventListener('dragover', allowDragOver)
