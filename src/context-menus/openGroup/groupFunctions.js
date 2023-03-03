@@ -1,4 +1,5 @@
 import { renderGroups, renderTabs } from '../../index.js'
+import { findOrCreateBookmarkFolder } from '../../utils/bookmarks.js'
 
 export async function toggleGroupCollapse(groupId) {
   const group = await chrome.tabGroups.get(groupId)
@@ -7,55 +8,23 @@ export async function toggleGroupCollapse(groupId) {
   })
 }
 
-// TODO:
-// Refactor me plz :(
 export async function saveGroupAsBookmarkFolder(groupId) {
   const group = await chrome.tabGroups.get(groupId)
   const groupTabs = await chrome.tabs.query({
     groupId
   })
 
-  const groupsSavedFolderName = 'Groups (Tab Groups Saver)'
   try {
-    await chrome.bookmarks.search({
-      title: groupsSavedFolderName
-    }, async (resultList) => {
-      if(resultList.length > 0) {
-        // Default folder for groups already exist
-        await chrome.bookmarks.create({
-          parentId: resultList[0].id,
-          title: group.title
-        }, (folder) => {
-          groupTabs.forEach(async tab => {
-            await chrome.bookmarks.create({
-              parentId: folder.id,
-              title: tab.title,
-              url: tab.url,
-            })
-          })
+    const groupBookmark = await findOrCreateBookmarkFolder(group.title)
+    await Promise.all(
+      groupTabs.map((tab) => {
+        return chrome.bookmarks.create({
+          parentId: groupBookmark.id,
+          title: tab.title,
+          url: tab.url,
         })
-      } else {
-        // Default folder does not exist yet, lets create it
-        await chrome.bookmarks.create({
-          parentId: '1',
-          index: 0,
-          title: groupsSavedFolderName
-        }, async (defaultGroupFolder) => {
-          await chrome.bookmarks.create({
-            parentId: defaultGroupFolder.id,
-            title: group.title
-          }, (folder) => {
-            groupTabs.forEach(async tab => {
-              await chrome.bookmarks.create({
-                parentId: folder.id,
-                title: tab.title,
-                url: tab.url,
-              })
-            })
-          })
-        })
-      }
-    })
+      })
+    )
     alert('Group Saved as Bookmark')
   } catch(err) {
     alert('Error creating bookmark')
