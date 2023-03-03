@@ -119,5 +119,5 @@ export async function closeGroup(groupId) {
 
   // Refresh the list of groups and tabs
   renderGroups()
-  renderTabs(groupId)
+  renderTabs()
 }
