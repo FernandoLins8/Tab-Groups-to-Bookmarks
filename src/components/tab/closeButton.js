@@ -11,26 +11,39 @@ export function createCloseButton(tabId, groupId, itemType = 'tab') {
   closeButton.innerHTML = 'X'
 
   closeButton.addEventListener('click', async () => {
+    // Searching for a groupId that does not exist throws an error
+    // so we need to get this before deleting
+    const remainingItemsBeforeDelete = itemType === 'tab'
+      ? await chrome.tabs.query({ groupId })
+      : await chrome.bookmarks.getChildren(groupId)
+    
     if (itemType === 'tab') {
       await chrome.tabs.remove(tabId)
     } else if (itemType === 'bookmark') {
       await chrome.bookmarks.remove(tabId)
     }
 
-    const remainingItems = itemType === 'tab'
-      ? await chrome.tabs.query({ groupId })
-      : await chrome.bookmarks.getChildren(groupId)
-
     const { renderTabsFn, renderGroupsFn } = renderFunctions[itemType]
 
-    renderTabsFn(groupId, null)
-    renderGroupsFn()
-    
-    // Delete bookmark folder if all urls were deleted
-    // The check is not needed for tabs since they're automatically deleted
-    if (remainingItems.length === 0 && itemType == 'bookmark') {
-      await chrome.bookmarks.remove(groupId)
+    if(remainingItemsBeforeDelete.length === 1) {
+      if(itemType === 'tab') {
+        // Since a group is deleted automatically if all tabs are removed
+        // we should call the renderTabFn without group ids
+        renderTabsFn()
+        renderGroupsFn()
+        return
+      } else if(itemType == 'bookmark') {
+        // Different from groups, a bookmark folder is not deleted if empty
+        // so we need to remove it manually
+        await chrome.bookmarks.remove(groupId)
+        renderTabsFn(null, null)
+        renderGroupsFn()
+        return
+      }
     }
+
+    renderGroupsFn()
+    renderTabsFn(groupId, null)
   })
 
   return closeButton
