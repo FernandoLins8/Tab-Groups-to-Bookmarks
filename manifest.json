@@ -3,11 +3,19 @@
   "version": "0.1.0",
   "description": "Manage and Save Your Tab Groups",
   "author": "fernandolins8",
-  "permissions": ["tabs", "tabGroups", "contextMenus", "bookmarks", "downloads"],
+  "permissions": ["tabs", "tabGroups", "contextMenus", "bookmarks", "downloads", "commands"],
   "host_permissions": ["https://*/*", "http://*/*"],
   "action": {
     "default_title": "Tab Groups Saver",
     "default_popup": "src/index.html"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+M",
+        "mac": "MacCtrl+Command+M"
+      }
+    }
   },
   "manifest_version": 3
 }
