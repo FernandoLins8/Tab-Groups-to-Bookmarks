@@ -51,13 +51,12 @@ export async function downloadSavedGroupTabsURLs(groupBookmarkId) {
   const textBlob = new Blob([textToDownload], {type: 'text/plain'})
   const url = URL.createObjectURL(textBlob)
 
-
   const resultArray = await chrome.bookmarks.get(groupBookmarkId)
   const groupBookmarkFolder = resultArray[0]
 
   await chrome.downloads.download({
     url,
-    filename: `${groupBookmarkFolder.title}.txt`
+    filename: `${groupBookmarkFolder.title ? groupBookmarkFolder.title :  'tab-group'}.txt`
   })
 }
 

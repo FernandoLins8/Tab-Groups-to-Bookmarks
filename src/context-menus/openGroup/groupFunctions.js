@@ -63,7 +63,7 @@ export async function downloadGroupTabsUrls(groupId) {
   const group = await chrome.tabGroups.get(groupId)
   await chrome.downloads.download({
     url,
-    filename: `${group.title}.txt`
+    filename: `${group.title ? group.title : 'tab-group'}.txt`
   })
 }
 
