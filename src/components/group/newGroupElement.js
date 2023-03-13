@@ -1,4 +1,5 @@
 import { renderGroups, renderTabs } from "../../index.js"
+import { getCurrentDateTimeString } from "../../utils/datetime.js"
 
 export function createNewGroupElement() {
   const createNewGroupElement = document.createElement('div')
@@ -23,7 +24,7 @@ async function createNewGroupFromDraggedTab(e) {
   chrome.tabs.group({
     tabIds: draggedTabId
   }, async (groupId) => {
-    await chrome.tabGroups.update(groupId, { title: 'New Group' })
+    await chrome.tabGroups.update(groupId, { title: getCurrentDateTimeString() })
     hideCreateNewGroupElement()
     renderTabs(previousGroupId)
     renderGroups()

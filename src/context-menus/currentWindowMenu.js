@@ -1,4 +1,5 @@
 import { renderGroups, renderTabs } from "../index.js"
+import { getCurrentDateTimeString } from "../utils/datetime.js"
 
 export function createCurrentWindowContextMenu() {
   chrome.contextMenus.create({
@@ -20,7 +21,7 @@ async function GroupAllUngroupedTabs() {
     tabIds: ungroupedTabsIds
   }, async (groupId) => {
     await chrome.tabGroups.update(groupId, {
-      title: 'Previously ungrouped'
+      title: getCurrentDateTimeString()
     })
 
     renderTabs()
