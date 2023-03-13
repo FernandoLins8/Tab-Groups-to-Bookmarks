@@ -1,5 +1,5 @@
-export async function findOrCreateSavedGroupsBookmarkFolder() {
-  const groupsSavedFolderName = 'Groups (Tab Groups Saver)'
+export async function findOrCreateRootFolder() {
+  const groupsSavedFolderName = 'Tab Groups'
   
   let searchResults = await chrome.bookmarks.search({
     title: groupsSavedFolderName  
@@ -23,17 +23,17 @@ export async function findOrCreateSavedGroupsBookmarkFolder() {
 }
 
 export async function findOrCreateBookmarkFolder(bookmarkTitle) {
-  const groupsSavedBookmarkFolder = await findOrCreateSavedGroupsBookmarkFolder()
-  const groupsSavedBookmarkFolderChildren = await chrome.bookmarks.getChildren(groupsSavedBookmarkFolder.id)
+  const groupsSavedRootFolder = await findOrCreateRootFolder()
+  const groupsSavedRootFolderChildren = await chrome.bookmarks.getChildren(groupsSavedRootFolder.id)
 
-  let searchResults = groupsSavedBookmarkFolderChildren.filter(bookmark => bookmark.title === bookmarkTitle)
+  let searchResults = groupsSavedRootFolderChildren.filter(bookmark => bookmark.title === bookmarkTitle)
   searchResults = searchResults.filter(result => result.url === undefined) // filter non folder bookmarks
 
   let folder
   // Folder does not exist yet, lets create it
   if(searchResults.length === 0) {
     folder = await chrome.bookmarks.create({
-      parentId: groupsSavedBookmarkFolder.id,
+      parentId: groupsSavedRootFolder.id,
       title: bookmarkTitle,
     })
   } else {

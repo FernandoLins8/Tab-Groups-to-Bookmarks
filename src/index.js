@@ -2,7 +2,7 @@ import { addWindowTabsEventListeners, createGroupElement, createGroupElementFrom
 import { createNewGroupElement } from './components/group/newGroupElement.js'
 import { createSavedGroupTabElement, createTabElements } from './components/tab/tab.js'
 import { removeContextMenus } from './context-menus/openGroup/openGroupMenu.js'
-import { findOrCreateSavedGroupsBookmarkFolder } from './utils/bookmarks.js'
+import { findOrCreateRootFolder } from './utils/bookmarks.js'
 
 const openGroupsBtn = document.querySelector('#open-btn')
 const savedGroupsBtn = document.querySelector('#saved-btn')
@@ -27,10 +27,10 @@ function renderSavedGroupsScreen() {
 }
 
 export async function renderSavedGroups() {
-  let savedGroupsParentFolder = await findOrCreateSavedGroupsBookmarkFolder()
+  let savedGroupsRootFolder = await findOrCreateRootFolder()
   
-  const savedGroupsParentFolderChildren = await chrome.bookmarks.getChildren(savedGroupsParentFolder.id)
-  const groupsAsBookmarks = savedGroupsParentFolderChildren.filter(bookmark => bookmark.url === undefined)
+  const savedGroupsRootFolderChildren = await chrome.bookmarks.getChildren(savedGroupsRootFolder.id)
+  const groupsAsBookmarks = savedGroupsRootFolderChildren.filter(bookmark => bookmark.url === undefined)
 
   const windowTabsGroup = document.querySelector('#window-tabs-group')
   windowTabsGroup.classList.remove('show')
