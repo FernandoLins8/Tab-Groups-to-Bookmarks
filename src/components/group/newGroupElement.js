@@ -20,15 +20,22 @@ async function createNewGroupFromDraggedTab(e) {
 
   const tab = await chrome.tabs.get(draggedTabId)
   const previousGroupId = tab.groupId
+  const remainingItemsBeforeDelete = await chrome.tabs.query({ groupId: previousGroupId })
   
-  chrome.tabs.group({
+  const newGroupId = await chrome.tabs.group({
     tabIds: draggedTabId
-  }, async (groupId) => {
-    await chrome.tabGroups.update(groupId, { title: getCurrentDateTimeString() })
-    hideCreateNewGroupElement()
-    renderTabs(previousGroupId)
-    renderGroups()
   })
+  await chrome.tabGroups.update(newGroupId, { title: getCurrentDateTimeString() })
+
+  hideCreateNewGroupElement()
+
+  if(remainingItemsBeforeDelete.length === 1) {
+    // Previous Group Tab was removed and trying to render its tabs would throw an error
+    renderTabs()
+  } else {
+    renderTabs(previousGroupId)
+  }
+  renderGroups()
 }
 
 export function hideCreateNewGroupElement() {

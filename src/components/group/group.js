@@ -1,4 +1,4 @@
-import { renderSavedGroups, renderTabs, renderTabsFromSavedGroup } from "../../index.js"
+import { renderGroups, renderSavedGroups, renderTabs, renderTabsFromSavedGroup } from "../../index.js"
 import { createCurrentWindowContextMenu } from "../../context-menus/currentWindowMenu.js"
 import { createGroupContextMenu, removeContextMenus } from "../../context-menus/openGroup/openGroupMenu.js"
 import { createGroupInput, focusGroupInputFromParent } from "./input.js"
@@ -80,6 +80,7 @@ async function dropTabIntoGroup(e) {
 
   const tab = await chrome.tabs.get(draggedTabId)
   const previousGroupId = tab.groupId
+  const remainingItemsBeforeDelete = await chrome.tabs.query({ groupId: previousGroupId })
   
   // Add tab to group
   if(groupId) {
@@ -92,7 +93,14 @@ async function dropTabIntoGroup(e) {
     await chrome.tabs.ungroup(draggedTabId)
   }
   
-  renderTabs(previousGroupId)
+  if(remainingItemsBeforeDelete.length === 1) {
+    // Group was deleted, passing its id would throw an error
+    renderTabs()
+  } else {
+    renderTabs(previousGroupId)
+  }
+
+  renderGroups()
 }
 
 async function dropTabIntoSavedGroup(e) {

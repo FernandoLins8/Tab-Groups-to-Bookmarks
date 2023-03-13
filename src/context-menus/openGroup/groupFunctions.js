@@ -76,7 +76,7 @@ export async function ungroupAllTabsFromGroup(groupId) {
 
   // Refresh the list of groups and tabs
   renderGroups()
-  renderTabs(groupId)
+  renderTabs()
 }
 
 export async function closeGroup(groupId) {
