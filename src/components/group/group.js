@@ -19,8 +19,8 @@ export const groupColorMapper = {
 export function addWindowTabsEventListeners() {
   const windowTabsGroupElement = document.querySelector('#window-tabs-group')
   windowTabsGroupElement.addEventListener('click', () => renderTabs())
-  windowTabsGroupElement.addEventListener('contextmenu', createCurrentWindowContextMenu)
-  windowTabsGroupElement.addEventListener('mouseleave', removeContextMenus)
+  windowTabsGroupElement.addEventListener('mouseover', createCurrentWindowContextMenu)
+  windowTabsGroupElement.addEventListener('mouseout', removeContextMenus)
 
   windowTabsGroupElement.addEventListener('dragover', allowDragOver)
   windowTabsGroupElement.addEventListener('drop', dropTabIntoGroup)
@@ -38,8 +38,8 @@ export function createGroupElement(groupId, title, color) {
 
   // Render of tabs and context menu
   groupElement.addEventListener('click', () => renderTabs(groupId))
-  groupElement.addEventListener('contextmenu', () => createGroupContextMenu(groupId))
-  groupElement.addEventListener('mouseleave', removeContextMenus)
+  groupElement.addEventListener('mouseover', () => createGroupContextMenu(groupId))
+  groupElement.addEventListener('mouseout', removeContextMenus)
 
   // Drag events to add tabs to group
   groupElement.addEventListener('dragover', allowDragOver)
@@ -64,8 +64,8 @@ export function createGroupElementFromBookmark(bookmarkId, title, index) {
   groupElement.addEventListener('dblclick', focusGroupInputFromParent)
 
   groupElement.addEventListener('click', () => renderTabsFromSavedGroup(bookmarkId, color))
-  groupElement.addEventListener('contextmenu', () => createSavedGroupContextMenu(bookmarkId))
-  groupElement.addEventListener('mouseleave', removeContextMenus)
+  groupElement.addEventListener('mouseover', () => createSavedGroupContextMenu(bookmarkId))
+  groupElement.addEventListener('mouseout', removeContextMenus)
 
   // Drag events to add tabs to group
   groupElement.addEventListener('dragover', allowDragOver)

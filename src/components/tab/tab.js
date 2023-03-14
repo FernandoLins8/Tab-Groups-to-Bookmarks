@@ -20,8 +20,8 @@ export function createTabElements(tab, groupId) {
     <div class="tab-btns"></div>
   `
 
-  tabElement.addEventListener('contextmenu', () => createTabContextMenu(tab.id))
-  tabElement.addEventListener('mouseleave', removeContextMenus)
+  tabElement.addEventListener('mouseover', () => createTabContextMenu(tab.id))
+  tabElement.addEventListener('mouseout', removeContextMenus)
   tabElement.addEventListener('dragstart', dragStart)
   tabElement.addEventListener('dragend', hideCreateNewGroupElement)
 
@@ -53,8 +53,8 @@ export function createSavedGroupTabElement(tabUrlId, urlTitle, groupBookmarkId) 
     <div class="tab-btns"></div>
   `
 
-  tabElement.addEventListener('contextmenu', () => createSavedTabContextMenu(tabUrlId))
-  tabElement.addEventListener('mouseleave', removeContextMenus)
+  tabElement.addEventListener('mouseover', () => createSavedTabContextMenu(tabUrlId))
+  tabElement.addEventListener('mouseout', removeContextMenus)
 
   tabElement.addEventListener('dragstart', (e) => dragStart(e, 'bookmark'))
 
