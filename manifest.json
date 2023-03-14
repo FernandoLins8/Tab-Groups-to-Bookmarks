@@ -9,6 +9,11 @@
     "default_title": "Tab Groups Saver",
     "default_popup": "src/index.html"
   },
+  "icons": {
+    "16": "assets/icon.png",
+    "24": "assets/icon.png",
+    "32": "assets/icon.png"
+  },
   "commands": {
     "_execute_action": {
       "suggested_key": {
