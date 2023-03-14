@@ -1,12 +1,12 @@
 {
-  "name": "Tab Groups Saver",
-  "version": "0.1.0",
+  "name": "Tab Groups to Bookmarks",
+  "version": "1.0.0",
   "description": "Manage and Save Your Tab Groups",
   "author": "fernandolins8",
   "permissions": ["tabs", "tabGroups", "contextMenus", "bookmarks", "downloads", "commands"],
   "host_permissions": ["https://*/*", "http://*/*"],
   "action": {
-    "default_title": "Tab Groups Saver",
+    "default_title": "Tab Groups to Bookmarks",
     "default_popup": "src/index.html"
   },
   "icons": {
