@@ -10,6 +10,7 @@ async function openSavedTab(tabBookmarkId) {
   const tabBookmarkSearchResult = await chrome.bookmarks.get(tabBookmarkId)
   const tabBookmark = tabBookmarkSearchResult[0]
   chrome.tabs.create({
-    url: tabBookmark.url
+    url: tabBookmark.url,
+    active: false
   })
 }
