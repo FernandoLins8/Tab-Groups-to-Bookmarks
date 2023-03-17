@@ -43,3 +43,18 @@ export async function findOrCreateBookmarkFolder(bookmarkTitle) {
 
   return folder
 }
+
+export async function deleteAllEmptySavedGroupFolders() {
+  const rootFolder = await findOrCreateRootFolder()
+  const savedGroupFolders = await chrome.bookmarks.getChildren(rootFolder.id)
+
+  savedGroupFolders.forEach(async (savedGroup) => {
+    // Check for folders
+    if(savedGroup.url === undefined) {
+      const savedGroupUrls = await chrome.bookmarks.getChildren(savedGroup.id)
+      if(savedGroupUrls.length === 0) {
+        chrome.bookmarks.remove(savedGroup.id)
+      }
+    }
+  })
+}
