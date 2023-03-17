@@ -1,3 +1,4 @@
+import { removeContextMenus } from "../../context-menus/openGroup/openGroupMenu.js"
 import { renderGroups, renderSavedGroups, renderTabs, renderTabsFromSavedGroup } from "../../index.js"
 
 const renderFunctions = {
@@ -22,6 +23,7 @@ export function createCloseButton(tabId, groupId, itemType = 'tab') {
     } else if (itemType === 'bookmark') {
       await chrome.bookmarks.remove(tabId)
     }
+    removeContextMenus()
 
     const { renderTabsFn, renderGroupsFn } = renderFunctions[itemType]
 

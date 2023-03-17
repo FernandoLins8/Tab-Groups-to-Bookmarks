@@ -1,3 +1,4 @@
+import { removeContextMenus } from "../../context-menus/openGroup/openGroupMenu.js"
 import { renderGroups, renderTabs } from "../../index.js"
 
 export function createUnlinkButton(tabId, groupId) {
@@ -11,6 +12,7 @@ export function createUnlinkButton(tabId, groupId) {
       groupId
     })
     await chrome.tabs.ungroup(tabId)
+    removeContextMenus()
     if(remainingTabs.length === 1) {
       renderTabs()
       renderGroups()

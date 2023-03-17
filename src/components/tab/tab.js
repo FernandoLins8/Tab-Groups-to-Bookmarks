@@ -7,7 +7,6 @@ import { createUnlinkButton } from "./unlinkButton.js"
 
 export function createTabElements(tab, groupId, isCurrentTab) {
   const tabElement = document.createElement('div')
-  console.log(tab.id, isCurrentTab)
   tabElement.className = isCurrentTab ? 'tab highlighted' : 'tab'
   tabElement.setAttribute('draggable', true)
   tabElement.setAttribute('data-tab-id', tab.id)
