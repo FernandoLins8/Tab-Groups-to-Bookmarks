@@ -7,7 +7,7 @@ const renderFunctions = {
 
 export function createCloseButton(tabId, groupId, itemType = 'tab') {
   const closeButton = document.createElement('button')
-  closeButton.setAttribute('title', `Close ${itemType}`)
+  closeButton.setAttribute('title', itemType === 'tab' ? 'Close Tab' : 'Delete Tab Bookmark')
   closeButton.innerHTML = 'X'
 
   closeButton.addEventListener('click', async () => {
