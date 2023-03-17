@@ -152,6 +152,10 @@ main .tab-section .tab {
   cursor: grabbing;
 }
 
+main .tab-section .tab.highlighted {
+  background: #cfdbeb;
+}
+
 main .tab-section .tab-url {
   text-overflow: ellipsis;
   overflow: hidden;

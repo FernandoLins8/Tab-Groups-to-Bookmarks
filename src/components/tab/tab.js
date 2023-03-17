@@ -5,9 +5,10 @@ import { hideCreateNewGroupElement, showCreateNewGroupElement } from "../group/n
 import { createCloseButton } from "./closeButton.js"
 import { createUnlinkButton } from "./unlinkButton.js"
 
-export function createTabElements(tab, groupId) {
+export function createTabElements(tab, groupId, isCurrentTab) {
   const tabElement = document.createElement('div')
-  tabElement.className = 'tab'
+  console.log(tab.id, isCurrentTab)
+  tabElement.className = isCurrentTab ? 'tab highlighted' : 'tab'
   tabElement.setAttribute('draggable', true)
   tabElement.setAttribute('data-tab-id', tab.id)
   tabElement.innerHTML = `

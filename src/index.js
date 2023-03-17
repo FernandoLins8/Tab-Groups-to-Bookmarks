@@ -100,9 +100,15 @@ export async function renderTabs(groupId=-1) {
   tabListCurrentGroupElement.innerHTML = groupLabelInfo.title
   tabListCurrentGroupElement.style.background = groupLabelInfo.background
 
+  // Get active tab to be highlighted
+  const currentTabSearch = await chrome.tabs.query({
+    active: true
+  })
+  const currentTab = currentTabSearch[0]
+
   // Create Tabs
   tabs.forEach(tab => {
-    const tabElement = createTabElements(tab, groupId)
+    const tabElement = createTabElements(tab, groupId, currentTab.id === tab.id)
     tabListElement.appendChild(tabElement)
   })
 }
