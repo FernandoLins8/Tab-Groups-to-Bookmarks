@@ -16,13 +16,17 @@ export async function saveGroupAsBookmarkFolder(groupId) {
 
   try {
     const groupBookmark = await findOrCreateBookmarkFolder(group.title)
+    const previousTabs = await chrome.bookmarks.getChildren(groupBookmark.id)
+    const previousURLs = previousTabs.map(tab => tab.url)
     await Promise.all(
       groupTabs.map((tab) => {
-        return chrome.bookmarks.create({
-          parentId: groupBookmark.id,
-          title: tab.title,
-          url: tab.url,
-        })
+        if(!previousURLs.includes(tab.url)) {
+          return chrome.bookmarks.create({
+            parentId: groupBookmark.id,
+            title: tab.title,
+            url: tab.url,
+          })
+        }
       })
     )
     alert('Group Saved as Bookmark')
