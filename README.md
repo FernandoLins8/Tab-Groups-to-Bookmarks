@@ -49,10 +49,10 @@
 ## Installing
 
 <p>
-  You can get it from the <a src="https://chrome.google.com/webstore/detail/tab-groups-to-bookmarks/mllgjknmdjhhbljhlcopkohfkadaakcn" target="_blank">Chrome Web Store</a> or install locally by following the steps below:
+  You can get it from the <a href="https://chrome.google.com/webstore/detail/tab-groups-to-bookmarks/mllgjknmdjhhbljhlcopkohfkadaakcn" target="_blank">Chrome Web Store</a> or install locally by following the steps below:
 
   <ol>
-    <li>Clone this repository with git or get an available version from <a src="https://github.com/FernandoLins8/Tab-Groups-to-Bookmarks/tags" target="_blank">here</a>.</li>
+    <li>Clone this repository with git or get an available version from <a href="https://github.com/FernandoLins8/Tab-Groups-to-Bookmarks/tags" target="_blank">here</a>.</li>
     <ul>
       <li>If cloned you can choose to checkout to the develop or release branch.</li>
       <li>If you got it from the tags section you can just unzip the folder and you'll have the version you downloaded.</li>
@@ -66,4 +66,4 @@
 ## Support
 Feel free to open an issue with a feature suggestion, a bug report or other request or question.
 
-[Buy me a coffee!](https://www.buymeacoffee.com/fernandolins)
+<a href="https://www.buymeacoffee.com/fernandolins">Buy me a coffee!</a>
