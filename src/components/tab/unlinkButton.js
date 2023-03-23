@@ -6,6 +6,7 @@ export function createUnlinkButton(tabId, groupId) {
   unlinkButton.id = `unlink-btn-${tabId}`
   unlinkButton.setAttribute('title', 'Ungroup tab')
   unlinkButton.innerHTML = '<i class="fas fa-unlink"></i>'
+  unlinkButton.style = "padding: 0.29rem 0.5rem"
 
   unlinkButton.addEventListener('click', async () => {
     const remainingTabs = await chrome.tabs.query({
