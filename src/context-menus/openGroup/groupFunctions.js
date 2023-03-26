@@ -1,5 +1,5 @@
 import { renderGroups, renderTabs } from '../../index.js'
-import { findOrCreateBookmarkFolder } from '../../utils/bookmarks.js'
+import { saveTabsAsBookmarks } from '../../utils/tabs.js'
 
 export async function toggleGroupCollapse(groupId) {
   const group = await chrome.tabGroups.get(groupId)
@@ -14,25 +14,7 @@ export async function saveGroupAsBookmarkFolder(groupId) {
     groupId
   })
 
-  try {
-    const groupBookmark = await findOrCreateBookmarkFolder(group.title)
-    const previousTabs = await chrome.bookmarks.getChildren(groupBookmark.id)
-    const previousURLs = previousTabs.map(tab => tab.url)
-    await Promise.all(
-      groupTabs.map((tab) => {
-        if(!previousURLs.includes(tab.url)) {
-          return chrome.bookmarks.create({
-            parentId: groupBookmark.id,
-            title: tab.title,
-            url: tab.url,
-          })
-        }
-      })
-    )
-    alert('Group Saved as Bookmark')
-  } catch(err) {
-    alert('Error creating bookmark')
-  }
+  saveTabsAsBookmarks(groupTabs, group.title)
 }
 
 export async function copyGroupURLs(groupId) {
