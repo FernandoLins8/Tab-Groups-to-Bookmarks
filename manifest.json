@@ -1,6 +1,6 @@
 {
   "name": "Tab Groups to Bookmarks",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Manage and Save Your Tab Groups",
   "author": "fernandolins8",
   "permissions": ["tabs", "tabGroups", "contextMenus", "bookmarks", "downloads", "commands"],
