@@ -1,6 +1,7 @@
 * {
+  margin: 0;
   box-sizing: border-box;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 button {
@@ -14,9 +15,6 @@ button {
   width: 600px;
   min-height: auto;
   max-height: 500px;
-  background: #486982;
-  border-radius: 8px;
-  padding: 0.75rem;
   overflow-y: auto;
 }
 
@@ -29,8 +27,7 @@ button {
   width: 100%;
   min-height: calc(100% - 1.5rem);
   background: white;
-  border-radius: 8px;
-  padding: 0.5rem;
+  padding: 1rem 0;
 }
 
 .toggle-btn-div {
@@ -43,7 +40,7 @@ button {
 
 .toggle-btn-div button {
   width: 80px;
-  border: 1px lightsteelblue solid;
+  border: 1px #4fc25581 solid;
   background: white;
 }
 
@@ -60,12 +57,15 @@ button {
 }
 
 .toggle-btn-div button.active {
-  background: #dfe7f1;
-  border: 1px #9eb0c7 solid;
+  background: #4fc25581;
+  border: 1px #4fc25581 solid;
 }
 
 main {
   display: flex;
+  justify-content: center;
+  margin: 1rem;
+
   text-align: center;
 }
 
@@ -87,8 +87,8 @@ main .group-section .window-tabs-group.show {
 }
 
 main .group-section .group {
-  border-radius: 20px;
-  background: #cfdbeb;
+  border-radius: 5px;
+  background: #4fc25581;
   padding: 0.5rem 1rem;
   cursor: pointer;
   user-select: none;
@@ -117,6 +117,7 @@ main .group-section .group input {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  outline: none;
 }
 
 main .group-section .group:hover {
@@ -125,7 +126,7 @@ main .group-section .group:hover {
 
 main .tab-section {
   width: 60%;
-  padding: 0 1.5rem;
+  padding-left: 1.5rem;
 }
 
 main .tab-section .tab-list-current-group {
@@ -144,7 +145,7 @@ main .tab-section .tab {
   align-items: center;
 
   border: 1px solid #697585;
-  border-radius: 3px;
+  border-radius: 5px;
   padding-left: 0.5rem;
   margin-bottom: 8px;
   text-align: left;
@@ -170,6 +171,7 @@ main .tab-section .tab-btns {
 }
 
 main .tab-section .tab-btns button {
-  padding: 0.25rem 0.5rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 5px;
   border-left: 1px solid #486982;
 }
