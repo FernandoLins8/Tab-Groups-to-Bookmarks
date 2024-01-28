@@ -3,7 +3,7 @@
   "version": "1.1.1",
   "description": "Manage and Save Your Tab Groups",
   "author": "fernandolins8",
-  "permissions": ["tabs", "tabGroups", "contextMenus", "bookmarks", "downloads", "commands"],
+  "permissions": ["tabs", "tabGroups", "contextMenus", "bookmarks", "downloads"],
   "action": {
     "default_title": "Tab Groups to Bookmarks",
     "default_popup": "src/index.html"
@@ -12,14 +12,6 @@
     "16": "assets/icon.png",
     "24": "assets/icon.png",
     "32": "assets/icon.png"
-  },
-  "commands": {
-    "_execute_action": {
-      "suggested_key": {
-        "default": "Ctrl+M",
-        "mac": "MacCtrl+Command+M"
-      }
-    }
   },
   "manifest_version": 3
 }
