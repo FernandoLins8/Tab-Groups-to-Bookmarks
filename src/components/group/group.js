@@ -3,6 +3,9 @@ import { createCurrentWindowContextMenu } from "../../context-menus/currentWindo
 import { createGroupContextMenu, removeContextMenus } from "../../context-menus/openGroup/openGroupMenu.js"
 import { createGroupInput, focusGroupInputFromParent } from "./input.js"
 import { createSavedGroupContextMenu } from "../../context-menus/savedGroup/savedGroupMenu.js"
+import { createSyncButton } from "./syncButton.js"
+import { createSaveButton } from "./saveButton.js"
+import { findSavedBookmarkFolderByName } from "../../utils/bookmarks.js"
 
 export const groupColorMapper = {
   grey: '#dadce0',
@@ -26,11 +29,15 @@ export function addWindowTabsEventListeners() {
   windowTabsGroupElement.addEventListener('drop', dropTabIntoGroup)
 }
 
-export function createGroupElement(groupId, title, color) {
+export async function createGroupElement(groupId, title, color) {
   const groupElement = document.createElement('div')
   groupElement.className = 'group'
   groupElement.setAttribute('data-group-id', groupId)
   groupElement.style.backgroundColor = groupColorMapper[color]
+
+  const btnContainerElement = document.createElement('div')
+  btnContainerElement.className = 'tab-btns'
+  groupElement.appendChild(btnContainerElement)
 
   const groupTitleInput = createGroupInput(groupId, title)
   groupElement.appendChild(groupTitleInput)
@@ -45,12 +52,22 @@ export function createGroupElement(groupId, title, color) {
   groupElement.addEventListener('dragover', allowDragOver)
   groupElement.addEventListener('drop', dropTabIntoGroup)
 
+  const savedGroup = await findSavedBookmarkFolderByName(title)
+
+  if (savedGroup) {
+    const syncButtonElement = createSyncButton(groupId, savedGroup)
+    btnContainerElement.appendChild(syncButtonElement)
+  } else {
+    const saveButtonElement = createSaveButton(groupId)
+    btnContainerElement.appendChild(saveButtonElement)
+  }
+
   return groupElement
 }
 
 export function createGroupElementFromBookmark(bookmarkId, title, index) {
   const groupElement = document.createElement('div')
-  groupElement.className = 'group'
+  groupElement.className = 'group saved'
   groupElement.setAttribute('data-bookmark-group-id', bookmarkId)
   
   // Selects background color (array order)

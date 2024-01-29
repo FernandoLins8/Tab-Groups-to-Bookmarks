@@ -126,8 +126,8 @@ export async function renderGroups() {
   
   removeContextMenus()
 
-  groups.forEach(group => {
-    const groupElement = createGroupElement(group.id, group.title, group.color)
+  groups.forEach(async (group) => {
+    const groupElement = await createGroupElement(group.id, group.title, group.color)
     groupListElement.appendChild(groupElement)
   })
 }

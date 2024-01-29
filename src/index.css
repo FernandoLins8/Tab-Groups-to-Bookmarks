@@ -83,32 +83,63 @@ main .group-section .window-tabs-group {
 }
 
 main .group-section .window-tabs-group.show {
-  display: block;
-}
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-main .group-section .group {
-  border-radius: 20px;
+  height: 30px;
+  border-radius: 5px;
   background: #cfdbeb;
-  padding: 0.5rem 1rem;
+  padding-right: 0.5rem;
   cursor: pointer;
   user-select: none;
   margin-bottom: 10px;
 }
+
+main .group-section .group {
+  height: 30px;
+  border-radius: 5px;
+  background: #cfdbeb;
+  padding-right: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 10px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+main .group-section .group .tab-btns button {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  height: 100%;
+  padding: 0.25rem 0.5rem;
+  border-right: none;
+  background: rgba(100, 100, 100, 0.2);
+}
+
 
 main .group-section .new-group-hidden {
   display: none;
 }
 
 main .group-section .new-group-shown {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: transparent;
   border: 1px dashed black;
+}
+
+main .group-section .group:hover {
+  opacity: 0.8;
 }
 
 main .group-section .group input {
   /* This avoids the input inside the group messing with the drag over event  */
   pointer-events: none;
-  text-align: center;
+  text-align: left;
   border: none;
   background: transparent;
   padding: 0;
@@ -119,8 +150,14 @@ main .group-section .group input {
   white-space: nowrap;
 }
 
-main .group-section .group:hover {
-  opacity: 0.8;
+main .group-section .saved {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main .group-section .saved input {
+  text-align: center;
 }
 
 main .tab-section {

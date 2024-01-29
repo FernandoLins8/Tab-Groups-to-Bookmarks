@@ -22,23 +22,32 @@ export async function findOrCreateRootFolder() {
   return groupsSavedBookmarkFolder
 }
 
-export async function findOrCreateBookmarkFolder(bookmarkTitle) {
+export async function findSavedBookmarkFolderByName(groupFolderName) {
   const groupsSavedRootFolder = await findOrCreateRootFolder()
   const groupsSavedRootFolderChildren = await chrome.bookmarks.getChildren(groupsSavedRootFolder.id)
 
-  let searchResults = groupsSavedRootFolderChildren.filter(bookmark => bookmark.title === bookmarkTitle)
+  let searchResults = groupsSavedRootFolderChildren.filter(bookmark => bookmark.title === groupFolderName)
   searchResults = searchResults.filter(result => result.url === undefined) // filter non folder bookmarks
 
-  let folder
-  // Folder does not exist yet, lets create it
+  // Folder does not exist
   if(searchResults.length === 0) {
+    return null
+  }
+
+  // Folder exists
+  return searchResults[0]
+}
+
+export async function findOrCreateBookmarkFolder(bookmarkTitle) {
+  const groupsSavedRootFolder = await findOrCreateRootFolder()
+
+  let folder = await findSavedBookmarkFolderByName(bookmarkTitle)
+
+  if(!folder) {
     folder = await chrome.bookmarks.create({
       parentId: groupsSavedRootFolder.id,
       title: bookmarkTitle,
     })
-  } else {
-    // Folder exists
-    folder = searchResults[0]
   }
 
   return folder
